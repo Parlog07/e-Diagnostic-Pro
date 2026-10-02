@@ -1,5 +1,7 @@
 package ma.teleexpertise.entity;
 
+import ma.teleexpertise.enums.TimeSlotStatus;
+
 import java.time.LocalDateTime;
 
 public class TimeSlot {
@@ -7,14 +9,14 @@ public class TimeSlot {
     private Long id;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
-    private String status;
+    private ma.teleexpertise.enums.TimeSlotStatus status;
     private Specialist specialist;
 
     public TimeSlot() {
     }
 
     public TimeSlot(Long id, LocalDateTime startTime, LocalDateTime endTime,
-                    String status, Specialist specialist) {
+                    ma.teleexpertise.enums.TimeSlotStatus status, Specialist specialist) {
         this.id = id;
         this.startTime = startTime;
         this.endTime = endTime;
@@ -46,11 +48,11 @@ public class TimeSlot {
         this.endTime = endTime;
     }
 
-    public String getStatus() {
+    public TimeSlotStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(TimeSlotStatus status) {
         this.status = status;
     }
 

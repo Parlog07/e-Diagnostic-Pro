@@ -1,5 +1,7 @@
 package ma.teleexpertise.entity;
 
+import ma.teleexpertise.enums.ConsultationStatus;
+
 import java.time.LocalDateTime;
 
 public class Consultation {
@@ -10,7 +12,7 @@ public class Consultation {
     private String diagnosis;
     private String treatment;
     private double cost;
-    private String status;
+    private ma.teleexpertise.enums.ConsultationStatus status;
     private LocalDateTime createdAt;
     private Patient patient;
     private GeneralPractitioner generalPractitioner;
@@ -19,7 +21,7 @@ public class Consultation {
     }
 
     public Consultation(Long id, String reason, String observations,
-                        String diagnosis, String treatment, String status,
+                        String diagnosis, String treatment, ma.teleexpertise.enums.ConsultationStatus status,
                         LocalDateTime createdAt, Patient patient,
                         GeneralPractitioner generalPractitioner) {
         this.id = id;
@@ -78,11 +80,11 @@ public class Consultation {
         return cost;
     }
 
-    public String getStatus() {
+    public ConsultationStatus getStatus() {
         return status;
     }
 
-    public void setStatus(String status) {
+    public void setStatus(ConsultationStatus status) {
         this.status = status;
     }
 
