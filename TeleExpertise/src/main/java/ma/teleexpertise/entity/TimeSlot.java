@@ -1,15 +1,22 @@
 package ma.teleexpertise.entity;
 
 import ma.teleexpertise.enums.TimeSlotStatus;
-
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "time_slots")
 public class TimeSlot {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LocalDateTime startTime;
     private LocalDateTime endTime;
+    @Enumerated(EnumType.STRING)
     private ma.teleexpertise.enums.TimeSlotStatus status;
+    @ManyToOne
+    @JoinColumn(name = "specialist_id", nullable = false)
     private Specialist specialist;
 
     public TimeSlot() {
