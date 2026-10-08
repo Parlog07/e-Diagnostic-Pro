@@ -1,10 +1,17 @@
 package ma.teleexpertise.entity;
+import jakarta.persistence.*;
 
+@Entity
+@Table(name = "medical_acts")
 public class MedicalAct {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String name;
     private double price;
+    @ManyToOne
+    @JoinColumn(name = "consultation_id", nullable = false)
     private Consultation consultation;
 
     public MedicalAct() {

@@ -1,20 +1,29 @@
 package ma.teleexpertise.entity;
 
 import ma.teleexpertise.enums.ConsultationStatus;
-
+import jakarta.persistence.*;
 import java.time.LocalDateTime;
 
+@Entity
+@Table(name = "consultations")
 public class Consultation {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String reason;
     private String observations;
     private String diagnosis;
     private String treatment;
     private double cost;
+    @Enumerated(EnumType.STRING)
     private ma.teleexpertise.enums.ConsultationStatus status;
     private LocalDateTime createdAt;
+    @ManyToOne
+    @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
+    @ManyToOne
+    @JoinColumn(name = "general_practitioner_id", nullable = false)
     private GeneralPractitioner generalPractitioner;
 
     public Consultation() {

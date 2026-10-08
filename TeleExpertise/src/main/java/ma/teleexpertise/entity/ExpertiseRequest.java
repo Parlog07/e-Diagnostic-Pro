@@ -2,17 +2,31 @@ package ma.teleexpertise.entity;
 
 import ma.teleexpertise.enums.ExpertiseStatus;
 import ma.teleexpertise.enums.Priority;
+import jakarta.persistence.*;
 
+
+@Entity
+@Table(name = "expertise_requests")
 public class ExpertiseRequest {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private String question;
+    @Enumerated(EnumType.STRING)
     private ma.teleexpertise.enums.Priority priority;
+    @Enumerated(EnumType.STRING)
     private ma.teleexpertise.enums.ExpertiseStatus status;
     private String expertOpinion;
     private String recommendations;
+    @OneToOne
+    @JoinColumn(name = "consultation_id", unique = true, nullable = false)
     private Consultation consultation;
+    @ManyToOne
+    @JoinColumn(name = "specialist_id", nullable = false)
     private Specialist specialist;
+    @ManyToOne
+    @JoinColumn(name = "time_slot_id")
     private TimeSlot timeSlot;
 
     public ExpertiseRequest() {
