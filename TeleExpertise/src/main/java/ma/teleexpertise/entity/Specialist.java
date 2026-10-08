@@ -1,5 +1,9 @@
 package ma.teleexpertise.entity;
 
+
+import jakarta.persistence.Entity;
+
+@Entity
 public class Specialist extends User {
 
     private String specialty;
@@ -29,4 +33,4 @@ public class Specialist extends User {
     public void setPrice(double price) {
         this.price = price;
     }
-}patient
+}

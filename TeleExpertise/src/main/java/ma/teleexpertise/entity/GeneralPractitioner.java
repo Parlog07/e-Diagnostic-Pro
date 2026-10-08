@@ -1,5 +1,8 @@
 package ma.teleexpertise.entity;
 
+import jakarta.persistence.Entity;
+
+@Entity
 public class GeneralPractitioner extends User {
 
     public GeneralPractitioner() {
