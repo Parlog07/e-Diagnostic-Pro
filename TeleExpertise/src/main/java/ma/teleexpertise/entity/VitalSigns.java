@@ -1,9 +1,14 @@
 package ma.teleexpertise.entity;
 
-import java.time.LocalDateTime;
+import jakarta.persistence.*;
 
+import java.time.LocalDateTime;
+@Entity
+@Table(name = "vital_signs")
 public class VitalSigns {
 
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private double systolicPressure;
     private double diastolicPressure;
@@ -13,6 +18,8 @@ public class VitalSigns {
     private double weight;
     private double height;
     private LocalDateTime recordedAt;
+    @ManyToOne
+    @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
 
     public VitalSigns() {
