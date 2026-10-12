@@ -1,14 +1,14 @@
 package ma.teleexpertise.entity;
 
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
+import ma.teleexpertise.enums.*;
+import java.math.BigDecimal;
+import java.time.*;
+import java.util.*;
+
 @Entity
+@Table(name = "nurse")
 public class Nurse extends User {
+    public Nurse() {}
 
-    public Nurse() {
-    }
-
-    public Nurse(Long id, String firstName, String lastName, String email, String password) {
-        super(id, firstName, lastName, email, password);
-    }
-    
 }

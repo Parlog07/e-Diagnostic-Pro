@@ -1,7 +1,3 @@
 package ma.teleexpertise.enums;
 
-public enum TimeSlotStatus {
-    DISPONIBLE,
-    INDISPONIBLE,
-    ARCHIVE
-}
+public enum TimeSlotStatus { DISPONIBLE, RESERVE, ARCHIVE }

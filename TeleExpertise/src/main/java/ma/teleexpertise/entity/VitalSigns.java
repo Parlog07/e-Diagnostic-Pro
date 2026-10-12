@@ -1,123 +1,74 @@
 package ma.teleexpertise.entity;
 
 import jakarta.persistence.*;
+import ma.teleexpertise.enums.*;
+import java.math.BigDecimal;
+import java.time.*;
+import java.util.*;
 
-import java.time.LocalDateTime;
 @Entity
 @Table(name = "vital_signs")
 public class VitalSigns {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private double systolicPressure;
-    private double diastolicPressure;
-    private int heartRate;
-    private double temperature;
-    private int respiratoryRate;
-    private double weight;
-    private double height;
-    private LocalDateTime recordedAt;
-    @ManyToOne
-    @JoinColumn(name = "patient_id", nullable = false)
+
+    @ManyToOne(optional = false) @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
 
-    public VitalSigns() {
-    }
+    @ManyToOne(optional = false) @JoinColumn(name = "nurse_id", nullable = false)
+    private Nurse nurse;
 
-    public VitalSigns(Long id, double systolicPressure, double diastolicPressure,
-                      int heartRate, double temperature, int respiratoryRate,
-                      double weight, double height, LocalDateTime recordedAt,
-                      Patient patient) {
-        this.id = id;
-        this.systolicPressure = systolicPressure;
-        this.diastolicPressure = diastolicPressure;
-        this.heartRate = heartRate;
-        this.temperature = temperature;
-        this.respiratoryRate = respiratoryRate;
-        this.weight = weight;
-        this.height = height;
-        this.recordedAt = recordedAt;
-        this.patient = patient;
-    }
+    @Column(name = "blood_pressure", nullable = false, length = 20)
+    private String bloodPressure;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(name = "heart_rate", nullable = false)
+    private int heartRate;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @Column(nullable = false, precision = 4, scale = 1)
+    private BigDecimal temperature;
 
-    public double getSystolicPressure() {
-        return systolicPressure;
-    }
+    @Column(name = "respiratory_rate", nullable = false)
+    private int respiratoryRate;
 
-    public void setSystolicPressure(double systolicPressure) {
-        this.systolicPressure = systolicPressure;
-    }
+    @Column(precision = 6, scale = 2)
+    private BigDecimal weight;
 
-    public double getDiastolicPressure() {
-        return diastolicPressure;
-    }
+    @Column(precision = 6, scale = 2)
+    private BigDecimal height;
 
-    public void setDiastolicPressure(double diastolicPressure) {
-        this.diastolicPressure = diastolicPressure;
-    }
+    @Column(name = "recorded_at", nullable = false)
+    private LocalDateTime recordedAt;
 
-    public int getHeartRate() {
-        return heartRate;
-    }
+    public VitalSigns() {}
 
-    public void setHeartRate(int heartRate) {
-        this.heartRate = heartRate;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public double getTemperature() {
-        return temperature;
-    }
+    public Patient getPatient() { return patient; }
+    public void setPatient(Patient patient) { this.patient = patient; }
 
-    public void setTemperature(double temperature) {
-        this.temperature = temperature;
-    }
+    public Nurse getNurse() { return nurse; }
+    public void setNurse(Nurse nurse) { this.nurse = nurse; }
 
-    public int getRespiratoryRate() {
-        return respiratoryRate;
-    }
+    public String getBloodPressure() { return bloodPressure; }
+    public void setBloodPressure(String bloodPressure) { this.bloodPressure = bloodPressure; }
 
-    public void setRespiratoryRate(int respiratoryRate) {
-        this.respiratoryRate = respiratoryRate;
-    }
+    public int getHeartRate() { return heartRate; }
+    public void setHeartRate(int heartRate) { this.heartRate = heartRate; }
 
-    public double getWeight() {
-        return weight;
-    }
+    public BigDecimal getTemperature() { return temperature; }
+    public void setTemperature(BigDecimal temperature) { this.temperature = temperature; }
 
-    public void setWeight(double weight) {
-        this.weight = weight;
-    }
+    public int getRespiratoryRate() { return respiratoryRate; }
+    public void setRespiratoryRate(int respiratoryRate) { this.respiratoryRate = respiratoryRate; }
 
-    public double getHeight() {
-        return height;
-    }
+    public BigDecimal getWeight() { return weight; }
+    public void setWeight(BigDecimal weight) { this.weight = weight; }
 
-    public void setHeight(double height) {
-        this.height = height;
-    }
+    public BigDecimal getHeight() { return height; }
+    public void setHeight(BigDecimal height) { this.height = height; }
 
-    public LocalDateTime getRecordedAt() {
-        return recordedAt;
-    }
+    public LocalDateTime getRecordedAt() { return recordedAt; }
+    public void setRecordedAt(LocalDateTime recordedAt) { this.recordedAt = recordedAt; }
 
-    public void setRecordedAt(LocalDateTime recordedAt) {
-        this.recordedAt = recordedAt;
-    }
-
-    public Patient getPatient() {
-        return patient;
-    }
-
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
 }

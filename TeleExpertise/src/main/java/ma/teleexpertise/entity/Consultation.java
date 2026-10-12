@@ -1,123 +1,86 @@
 package ma.teleexpertise.entity;
 
-import ma.teleexpertise.enums.ConsultationStatus;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import ma.teleexpertise.enums.*;
+import java.math.BigDecimal;
+import java.time.*;
+import java.util.*;
 
 @Entity
-@Table(name = "consultations")
+@Table(name = "consultation")
 public class Consultation {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String reason;
-    private String observations;
-    private String diagnosis;
-    private String treatment;
-    private double cost;
-    @Enumerated(EnumType.STRING)
-    private ma.teleexpertise.enums.ConsultationStatus status;
-    private LocalDateTime createdAt;
-    @ManyToOne
-    @JoinColumn(name = "patient_id", nullable = false)
+
+    @ManyToOne(optional = false) @JoinColumn(name = "patient_id", nullable = false)
     private Patient patient;
-    @ManyToOne
-    @JoinColumn(name = "general_practitioner_id", nullable = false)
-    private GeneralPractitioner generalPractitioner;
 
-    public Consultation() {
-    }
+    @ManyToOne(optional = false) @JoinColumn(name = "doctor_id", nullable = false)
+    private GeneralPractitioner doctor;
 
-    public Consultation(Long id, String reason, String observations,
-                        String diagnosis, String treatment, ma.teleexpertise.enums.ConsultationStatus status,
-                        LocalDateTime createdAt, Patient patient,
-                        GeneralPractitioner generalPractitioner) {
-        this.id = id;
-        this.reason = reason;
-        this.observations = observations;
-        this.diagnosis = diagnosis;
-        this.treatment = treatment;
-        this.cost = 150.0;
-        this.status = status;
-        this.createdAt = createdAt;
-        this.patient = patient;
-        this.generalPractitioner = generalPractitioner;
-    }
+    @Column(nullable = false, length = 1000)
+    private String reason;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(length = 3000)
+    private String observations;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @Column(length = 3000)
+    private String diagnosis;
 
-    public String getReason() {
-        return reason;
-    }
+    @Column(length = 3000)
+    private String treatment;
 
-    public void setReason(String reason) {
-        this.reason = reason;
-    }
+    @Enumerated(EnumType.STRING) @Column(nullable = false, length = 50)
+    private ConsultationStatus status = ConsultationStatus.EN_COURS;
 
-    public String getObservations() {
-        return observations;
-    }
+    @Column(name = "base_cost", nullable = false, precision = 10, scale = 2)
+    private BigDecimal baseCost = new BigDecimal("150.00");
 
-    public void setObservations(String observations) {
-        this.observations = observations;
-    }
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
-    public String getDiagnosis() {
-        return diagnosis;
-    }
+    @OneToMany(mappedBy = "consultation") @OrderBy("id ASC")
+    private List<MedicalAct> medicalActs = new ArrayList<>();
 
-    public void setDiagnosis(String diagnosis) {
-        this.diagnosis = diagnosis;
-    }
+    @OneToOne(mappedBy = "consultation")
+    private ExpertiseRequest expertiseRequest;
 
-    public String getTreatment() {
-        return treatment;
-    }
+    public Consultation() {}
 
-    public void setTreatment(String treatment) {
-        this.treatment = treatment;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public double getCost() {
-        return cost;
-    }
+    public Patient getPatient() { return patient; }
+    public void setPatient(Patient patient) { this.patient = patient; }
 
-    public ConsultationStatus getStatus() {
-        return status;
-    }
+    public GeneralPractitioner getDoctor() { return doctor; }
+    public void setDoctor(GeneralPractitioner doctor) { this.doctor = doctor; }
 
-    public void setStatus(ConsultationStatus status) {
-        this.status = status;
-    }
+    public String getReason() { return reason; }
+    public void setReason(String reason) { this.reason = reason; }
 
-    public LocalDateTime getCreatedAt() {
-        return createdAt;
-    }
+    public String getObservations() { return observations; }
+    public void setObservations(String observations) { this.observations = observations; }
 
-    public void setCreatedAt(LocalDateTime createdAt) {
-        this.createdAt = createdAt;
-    }
+    public String getDiagnosis() { return diagnosis; }
+    public void setDiagnosis(String diagnosis) { this.diagnosis = diagnosis; }
 
-    public Patient getPatient() {
-        return patient;
-    }
+    public String getTreatment() { return treatment; }
+    public void setTreatment(String treatment) { this.treatment = treatment; }
 
-    public void setPatient(Patient patient) {
-        this.patient = patient;
-    }
+    public ConsultationStatus getStatus() { return status; }
+    public void setStatus(ConsultationStatus status) { this.status = status; }
 
-    public GeneralPractitioner getGeneralPractitioner() {
-        return generalPractitioner;
-    }
+    public BigDecimal getBaseCost() { return baseCost; }
+    public void setBaseCost(BigDecimal baseCost) { this.baseCost = baseCost; }
 
-    public void setGeneralPractitioner(GeneralPractitioner generalPractitioner) {
-        this.generalPractitioner = generalPractitioner;
-    }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
+
+    public List<MedicalAct> getMedicalActs() { return medicalActs; }
+    public void setMedicalActs(List<MedicalAct> medicalActs) { this.medicalActs = medicalActs; }
+
+    public ExpertiseRequest getExpertiseRequest() { return expertiseRequest; }
+    public void setExpertiseRequest(ExpertiseRequest expertiseRequest) { this.expertiseRequest = expertiseRequest; }
+
 }

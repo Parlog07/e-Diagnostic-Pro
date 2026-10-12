@@ -1,118 +1,80 @@
 package ma.teleexpertise.entity;
 
-import ma.teleexpertise.enums.ExpertiseStatus;
-import ma.teleexpertise.enums.Priority;
 import jakarta.persistence.*;
-
+import ma.teleexpertise.enums.*;
+import java.math.BigDecimal;
+import java.time.*;
+import java.util.*;
 
 @Entity
-@Table(name = "expertise_requests")
+@Table(name = "expertise_request")
 public class ExpertiseRequest {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String question;
-    @Enumerated(EnumType.STRING)
-    private ma.teleexpertise.enums.Priority priority;
-    @Enumerated(EnumType.STRING)
-    private ma.teleexpertise.enums.ExpertiseStatus status;
-    private String expertOpinion;
-    private String recommendations;
-    @OneToOne
-    @JoinColumn(name = "consultation_id", unique = true, nullable = false)
+
+    @OneToOne(optional = false) @JoinColumn(name = "consultation_id", nullable = false, unique = true)
     private Consultation consultation;
-    @ManyToOne
-    @JoinColumn(name = "specialist_id", nullable = false)
+
+    @ManyToOne(optional = false) @JoinColumn(name = "specialist_id", nullable = false)
     private Specialist specialist;
-    @ManyToOne
-    @JoinColumn(name = "time_slot_id")
-    private TimeSlot timeSlot;
 
-    public ExpertiseRequest() {
-    }
+    @Column(nullable = false, length = 3000)
+    private String question;
 
-    public ExpertiseRequest(Long id, String question, ma.teleexpertise.enums.Priority priority,
-                            ma.teleexpertise.enums.ExpertiseStatus status, Consultation consultation,
-                            Specialist specialist, TimeSlot timeSlot) {
-        this.id = id;
-        this.question = question;
-        this.priority = priority;
-        this.status = status;
-        this.consultation = consultation;
-        this.specialist = specialist;
-        this.timeSlot = timeSlot;
-    }
+    @Enumerated(EnumType.STRING) @Column(nullable = false, length = 30)
+    private Priority priority;
 
-    public Long getId() {
-        return id;
-    }
+    @Enumerated(EnumType.STRING) @Column(nullable = false, length = 30)
+    private ExpertiseStatus status = ExpertiseStatus.EN_ATTENTE;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal fee;
 
-    public String getQuestion() {
-        return question;
-    }
+    @Column(length = 3000)
+    private String opinion;
 
-    public void setQuestion(String question) {
-        this.question = question;
-    }
+    @Column(length = 3000)
+    private String recommendations;
 
-    public Priority getPriority() {
-        return priority;
-    }
+    @Column(name = "created_at", nullable = false)
+    private LocalDateTime createdAt;
 
-    public void setPriority(Priority priority) {
-        this.priority = priority;
-    }
+    @Column(name = "completed_at")
+    private LocalDateTime completedAt;
 
-    public ExpertiseStatus getStatus() {
-        return status;
-    }
+    public ExpertiseRequest() {}
 
-    public void setStatus(ExpertiseStatus status) {
-        this.status = status;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public String getExpertOpinion() {
-        return expertOpinion;
-    }
+    public Consultation getConsultation() { return consultation; }
+    public void setConsultation(Consultation consultation) { this.consultation = consultation; }
 
-    public void setExpertOpinion(String expertOpinion) {
-        this.expertOpinion = expertOpinion;
-    }
+    public Specialist getSpecialist() { return specialist; }
+    public void setSpecialist(Specialist specialist) { this.specialist = specialist; }
 
-    public String getRecommendations() {
-        return recommendations;
-    }
+    public String getQuestion() { return question; }
+    public void setQuestion(String question) { this.question = question; }
 
-    public void setRecommendations(String recommendations) {
-        this.recommendations = recommendations;
-    }
+    public Priority getPriority() { return priority; }
+    public void setPriority(Priority priority) { this.priority = priority; }
 
-    public Consultation getConsultation() {
-        return consultation;
-    }
+    public ExpertiseStatus getStatus() { return status; }
+    public void setStatus(ExpertiseStatus status) { this.status = status; }
 
-    public void setConsultation(Consultation consultation) {
-        this.consultation = consultation;
-    }
+    public BigDecimal getFee() { return fee; }
+    public void setFee(BigDecimal fee) { this.fee = fee; }
 
-    public Specialist getSpecialist() {
-        return specialist;
-    }
+    public String getOpinion() { return opinion; }
+    public void setOpinion(String opinion) { this.opinion = opinion; }
 
-    public void setSpecialist(Specialist specialist) {
-        this.specialist = specialist;
-    }
+    public String getRecommendations() { return recommendations; }
+    public void setRecommendations(String recommendations) { this.recommendations = recommendations; }
 
-    public TimeSlot getTimeSlot() {
-        return timeSlot;
-    }
+    public LocalDateTime getCreatedAt() { return createdAt; }
+    public void setCreatedAt(LocalDateTime createdAt) { this.createdAt = createdAt; }
 
-    public void setTimeSlot(TimeSlot timeSlot) {
-        this.timeSlot = timeSlot;
-    }
+    public LocalDateTime getCompletedAt() { return completedAt; }
+    public void setCompletedAt(LocalDateTime completedAt) { this.completedAt = completedAt; }
+
 }

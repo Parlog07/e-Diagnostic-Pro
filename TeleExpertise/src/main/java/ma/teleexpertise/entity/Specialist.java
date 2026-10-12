@@ -1,36 +1,32 @@
 package ma.teleexpertise.entity;
 
-
-import jakarta.persistence.Entity;
+import jakarta.persistence.*;
+import ma.teleexpertise.enums.*;
+import java.math.BigDecimal;
+import java.time.*;
+import java.util.*;
 
 @Entity
+@Table(name = "specialist")
 public class Specialist extends User {
-
+    @Column(nullable = false, length = 100)
     private String specialty;
-    private double price;
 
-    public Specialist() {
-    }
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal tariff;
 
-    public Specialist(Long id, String firstName, String lastName, String email, String password, String specialty, double price) {
-        super(id, firstName, lastName, email, password);
-        this.specialty = specialty;
-        this.price = price;
-    }
+    @OneToMany(mappedBy = "specialist")
+    private List<ExpertiseRequest> requests = new ArrayList<>();
 
-    public String getSpecialty() {
-        return specialty;
-    }
+    public Specialist() {}
 
-    public void setSpecialty(String specialty) {
-        this.specialty = specialty;
-    }
+    public String getSpecialty() { return specialty; }
+    public void setSpecialty(String specialty) { this.specialty = specialty; }
 
-    public double getPrice() {
-        return price;
-    }
+    public BigDecimal getTariff() { return tariff; }
+    public void setTariff(BigDecimal tariff) { this.tariff = tariff; }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
+    public List<ExpertiseRequest> getRequests() { return requests; }
+    public void setRequests(List<ExpertiseRequest> requests) { this.requests = requests; }
+
 }

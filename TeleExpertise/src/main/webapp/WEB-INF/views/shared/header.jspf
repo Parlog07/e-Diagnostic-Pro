@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html lang="fr"><head><meta charset="UTF-8"><meta name="viewport" content="width=device-width, initial-scale=1"><title>TeleExpertise</title>
+<link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/bootstrap.min.css"><link rel="stylesheet" href="${pageContext.request.contextPath}/assets/css/app.css"></head><body>
+<c:set var="ctx" value="${pageContext.request.contextPath}"/>
+<div class="app-shell"><aside class="sidebar"><a class="brand" href="${ctx}/">TE <span>TeleExpertise</span></a><p class="brand-note">Parcours de soins</p>
+<c:if test="${not empty sessionScope.user}"><nav>
+<c:if test="${sessionScope.user.role == 'NURSE'}"><a href="${ctx}/nurse/patients">Patients du jour</a><a href="${ctx}/nurse/patients?action=search">Rechercher un patient</a><a href="${ctx}/nurse/patients?action=new">Nouveau patient</a></c:if>
+<c:if test="${sessionScope.user.role == 'DOCTOR'}"><a href="${ctx}/doctor/consultations">Consultations / File d'attente</a></c:if>
+<c:if test="${sessionScope.user.role == 'SPECIALIST'}"><a href="${ctx}/specialist/requests">Demandes d'expertise</a><a href="${ctx}/specialist/requests?action=profile">Mon profil</a></c:if>
+</nav><div class="staff"><strong><c:out value="${sessionScope.user.name}"/></strong><form method="post" action="${ctx}/logout"><input type="hidden" name="csrf" value="${sessionScope.csrf}"><button class="btn btn-outline-secondary btn-sm mt-3">Déconnexion</button></form></div></c:if>
+</aside><main class="content"><div class="topline">Plateforme médicale <span>Démonstration · Données fictives</span></div>
+<c:if test="${not empty error}"><div class="alert alert-danger" role="alert"><c:out value="${error}"/></div></c:if>
+<c:if test="${not empty sessionScope.error}"><div class="alert alert-danger" role="alert"><c:out value="${sessionScope.error}"/></div><c:remove var="error" scope="session"/></c:if>

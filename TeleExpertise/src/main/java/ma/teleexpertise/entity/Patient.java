@@ -1,90 +1,105 @@
 package ma.teleexpertise.entity;
 
 import jakarta.persistence.*;
-
-import java.time.LocalDate;
+import ma.teleexpertise.enums.*;
+import java.math.BigDecimal;
+import java.time.*;
+import java.util.*;
 
 @Entity
-@Table(name = "patients")
-
+@Table(name = "patient")
 public class Patient {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
+    @Column(name = "first_name", nullable = false, length = 100)
     private String firstName;
+
+    @Column(name = "last_name", nullable = false, length = 100)
     private String lastName;
+
+    @Column(name = "birth_date", nullable = false)
     private LocalDate birthDate;
-    @Column(unique = true, nullable = false)
+
+    @Column(name = "social_security_number", nullable = false, unique = true, length = 50)
     private String socialSecurityNumber;
+
+    @Column(length = 30)
     private String phone;
+
+    @Column(length = 300)
     private String address;
 
-    public Patient() {
-    }
+    @Column(length = 100)
+    private String insurance;
 
-    public Patient(Long id, String firstName, String lastName, LocalDate birthDate, String socialSecurityNumber, String phone, String address) {
-        this.id = id;
-        this.firstName = firstName;
-        this.lastName = lastName;
-        this.birthDate = birthDate;
-        this.socialSecurityNumber = socialSecurityNumber;
-        this.phone = phone;
-        this.address = address;
-    }
+    @Column(length = 3000)
+    private String history;
 
-    public Long getId() {
-        return id;
-    }
+    @Column(length = 1000)
+    private String allergies;
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    @Column(name = "current_treatment", length = 3000)
+    private String currentTreatment;
 
-    public String getFirstName() {
-        return firstName;
-    }
+    @Column(nullable = false)
+    private boolean waiting = false;
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
-    }
+    @Column(name = "arrival_at", nullable = false)
+    private LocalDateTime arrivalAt;
 
-    public String getLastName() {
-        return lastName;
-    }
+    @OneToMany(mappedBy = "patient") @OrderBy("recordedAt DESC")
+    private List<VitalSigns> vitalSigns = new ArrayList<>();
 
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
+    @OneToMany(mappedBy = "patient") @OrderBy("createdAt DESC")
+    private List<Consultation> consultations = new ArrayList<>();
 
-    public LocalDate getBirthDate() {
-        return birthDate;
-    }
+    public Patient() {}
 
-    public void setBirthDate(LocalDate birthDate) {
-        this.birthDate = birthDate;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public String getSocialSecurityNumber() {
-        return socialSecurityNumber;
-    }
+    public String getFirstName() { return firstName; }
+    public void setFirstName(String firstName) { this.firstName = firstName; }
 
-    public void setSocialSecurityNumber(String socialSecurityNumber) {
-        this.socialSecurityNumber = socialSecurityNumber;
-    }
+    public String getLastName() { return lastName; }
+    public void setLastName(String lastName) { this.lastName = lastName; }
 
-    public String getPhone() {
-        return phone;
-    }
+    public LocalDate getBirthDate() { return birthDate; }
+    public void setBirthDate(LocalDate birthDate) { this.birthDate = birthDate; }
 
-    public void setPhone(String phone) {
-        this.phone = phone;
-    }
+    public String getSocialSecurityNumber() { return socialSecurityNumber; }
+    public void setSocialSecurityNumber(String socialSecurityNumber) { this.socialSecurityNumber = socialSecurityNumber; }
 
-    public String getAddress() {
-        return address;
-    }
+    public String getPhone() { return phone; }
+    public void setPhone(String phone) { this.phone = phone; }
 
-    public void setAddress(String address) {
-        this.address = address;
-    }
+    public String getAddress() { return address; }
+    public void setAddress(String address) { this.address = address; }
+
+    public String getInsurance() { return insurance; }
+    public void setInsurance(String insurance) { this.insurance = insurance; }
+
+    public String getHistory() { return history; }
+    public void setHistory(String history) { this.history = history; }
+
+    public String getAllergies() { return allergies; }
+    public void setAllergies(String allergies) { this.allergies = allergies; }
+
+    public String getCurrentTreatment() { return currentTreatment; }
+    public void setCurrentTreatment(String currentTreatment) { this.currentTreatment = currentTreatment; }
+
+    public boolean isWaiting() { return waiting; }
+    public void setWaiting(boolean waiting) { this.waiting = waiting; }
+
+    public LocalDateTime getArrivalAt() { return arrivalAt; }
+    public void setArrivalAt(LocalDateTime arrivalAt) { this.arrivalAt = arrivalAt; }
+
+    public List<VitalSigns> getVitalSigns() { return vitalSigns; }
+    public void setVitalSigns(List<VitalSigns> vitalSigns) { this.vitalSigns = vitalSigns; }
+
+    public List<Consultation> getConsultations() { return consultations; }
+    public void setConsultations(List<Consultation> consultations) { this.consultations = consultations; }
+
+    public String getFullName() { return firstName + " " + lastName; }
 }

@@ -1,73 +1,38 @@
 package ma.teleexpertise.entity;
 
-import ma.teleexpertise.enums.TimeSlotStatus;
 import jakarta.persistence.*;
-import java.time.LocalDateTime;
+import ma.teleexpertise.enums.*;
+import java.math.BigDecimal;
+import java.time.*;
+import java.util.*;
 
 @Entity
-@Table(name = "time_slots")
+@Table(name = "time_slot")
 public class TimeSlot {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private LocalDateTime startTime;
-    private LocalDateTime endTime;
-    @Enumerated(EnumType.STRING)
-    private ma.teleexpertise.enums.TimeSlotStatus status;
-    @ManyToOne
-    @JoinColumn(name = "specialist_id", nullable = false)
+
+    @ManyToOne(optional = false) @JoinColumn(name = "specialist_id", nullable = false)
     private Specialist specialist;
 
-    public TimeSlot() {
-    }
+    @Column(name = "starts_at", nullable = false)
+    private LocalDateTime startsAt;
 
-    public TimeSlot(Long id, LocalDateTime startTime, LocalDateTime endTime,
-                    ma.teleexpertise.enums.TimeSlotStatus status, Specialist specialist) {
-        this.id = id;
-        this.startTime = startTime;
-        this.endTime = endTime;
-        this.status = status;
-        this.specialist = specialist;
-    }
+    @Enumerated(EnumType.STRING) @Column(nullable = false, length = 30)
+    private TimeSlotStatus status = TimeSlotStatus.DISPONIBLE;
 
-    public Long getId() {
-        return id;
-    }
+    public TimeSlot() {}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public LocalDateTime getStartTime() {
-        return startTime;
-    }
+    public Specialist getSpecialist() { return specialist; }
+    public void setSpecialist(Specialist specialist) { this.specialist = specialist; }
 
-    public void setStartTime(LocalDateTime startTime) {
-        this.startTime = startTime;
-    }
+    public LocalDateTime getStartsAt() { return startsAt; }
+    public void setStartsAt(LocalDateTime startsAt) { this.startsAt = startsAt; }
 
-    public LocalDateTime getEndTime() {
-        return endTime;
-    }
+    public TimeSlotStatus getStatus() { return status; }
+    public void setStatus(TimeSlotStatus status) { this.status = status; }
 
-    public void setEndTime(LocalDateTime endTime) {
-        this.endTime = endTime;
-    }
-
-    public TimeSlotStatus getStatus() {
-        return status;
-    }
-
-    public void setStatus(TimeSlotStatus status) {
-        this.status = status;
-    }
-
-    public Specialist getSpecialist() {
-        return specialist;
-    }
-
-    public void setSpecialist(Specialist specialist) {
-        this.specialist = specialist;
-    }
 }

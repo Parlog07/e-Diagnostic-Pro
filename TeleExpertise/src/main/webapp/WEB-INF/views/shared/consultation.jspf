@@ -1,0 +1,7 @@
+<c:set var="patient" value="${consultation.patient}"/><%@ include file="patient.jspf" %>
+<section class="card card-body mb-4"><div class="d-flex justify-content-between flex-wrap"><h2 class="h5">Consultation #${consultation.id}</h2><span class="badge text-bg-primary"><c:out value="${consultation.status}"/></span></div>
+<p>Généraliste : <c:out value="${consultation.doctor.fullName}"/> · <c:out value="${consultation.createdAt}"/></p>
+<p><strong>Motif :</strong> <c:out value="${consultation.reason}"/></p><p><strong>Observations :</strong> <c:out value="${consultation.observations}"/></p><p><strong>Diagnostic :</strong> <c:out value="${consultation.diagnosis}"/></p><p><strong>Traitement :</strong> <c:out value="${consultation.treatment}"/></p>
+<h3 class="h6">Coût total : ${total} DH</h3><p class="text-muted">Consultation : ${consultation.baseCost} DH · Expertise : <c:out value="${empty consultation.expertiseRequest ? 0 : consultation.expertiseRequest.fee}"/> DH (tarif enregistré à la demande)</p>
+<table class="table"><thead><tr><th>Acte technique</th><th>Prix (DH)</th></tr></thead><tbody><c:forEach items="${consultation.medicalActs}" var="a"><tr><td><c:out value="${a.name}"/></td><td>${a.price}</td></tr></c:forEach></tbody></table>
+</section>

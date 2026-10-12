@@ -1,58 +1,38 @@
 package ma.teleexpertise.entity;
+
 import jakarta.persistence.*;
+import ma.teleexpertise.enums.*;
+import java.math.BigDecimal;
+import java.time.*;
+import java.util.*;
 
 @Entity
-@Table(name = "medical_acts")
+@Table(name = "medical_act")
 public class MedicalAct {
-
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String name;
-    private double price;
-    @ManyToOne
-    @JoinColumn(name = "consultation_id", nullable = false)
+
+    @ManyToOne(optional = false) @JoinColumn(name = "consultation_id", nullable = false)
     private Consultation consultation;
 
-    public MedicalAct() {
-    }
+    @Column(nullable = false, length = 200)
+    private String name;
 
-    public MedicalAct(Long id, String name, double price, Consultation consultation) {
-        this.id = id;
-        this.name = name;
-        this.price = price;
-        this.consultation = consultation;
-    }
+    @Column(nullable = false, precision = 10, scale = 2)
+    private BigDecimal price;
 
-    public Long getId() {
-        return id;
-    }
+    public MedicalAct() {}
 
-    public void setId(Long id) {
-        this.id = id;
-    }
+    public Long getId() { return id; }
+    public void setId(Long id) { this.id = id; }
 
-    public String getName() {
-        return name;
-    }
+    public Consultation getConsultation() { return consultation; }
+    public void setConsultation(Consultation consultation) { this.consultation = consultation; }
 
-    public void setName(String name) {
-        this.name = name;
-    }
+    public String getName() { return name; }
+    public void setName(String name) { this.name = name; }
 
-    public double getPrice() {
-        return price;
-    }
+    public BigDecimal getPrice() { return price; }
+    public void setPrice(BigDecimal price) { this.price = price; }
 
-    public void setPrice(double price) {
-        this.price = price;
-    }
-
-    public Consultation getConsultation() {
-        return consultation;
-    }
-
-    public void setConsultation(Consultation consultation) {
-        this.consultation = consultation;
-    }
 }
