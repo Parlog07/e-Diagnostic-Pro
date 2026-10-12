@@ -12,11 +12,21 @@ public class HikariConnectionProvider implements ConnectionProvider, Configurabl
     private HikariDataSource dataSource;
     public void configure(Map<String, Object> values) {
         HikariConfig config = new HikariConfig();
-        config.setJdbcUrl((String) values.get("jakarta.persistence.jdbc.url"));
+
+        String url = (String) values.get("jakarta.persistence.jdbc.url");
+
+        if (url.startsWith("jdbc:h2:")) {
+            config.setDriverClassName("org.h2.Driver");
+        } else if (url.startsWith("jdbc:postgresql:")) {
+            config.setDriverClassName("org.postgresql.Driver");
+        }
+
+        config.setJdbcUrl(url);
         config.setUsername((String) values.get("jakarta.persistence.jdbc.user"));
         config.setPassword((String) values.get("jakarta.persistence.jdbc.password"));
         config.setMaximumPoolSize(5);
         config.setPoolName("TeleExpertise");
+
         dataSource = new HikariDataSource(config);
     }
     public Connection getConnection() throws SQLException { return dataSource.getConnection(); }
